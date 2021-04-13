@@ -20,7 +20,7 @@ namespace GcpStorageExample.CLI
                 .WithParameter("localWorkingDirectoryName", GlobalConstants.LOCAL_WORKING_DIR);
             _container = builder.Build();
 
-            _sampleFileName = "~/tmp/savaged.pdf";
+            _sampleFileName = "savaged.pdf";
         }
     
         public async Task RunAsync()

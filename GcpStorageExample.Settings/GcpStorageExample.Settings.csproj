@@ -5,13 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="storage-key/sample-key.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="storage-key/sample-key.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <None Include="storage-key/sample-key.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>
