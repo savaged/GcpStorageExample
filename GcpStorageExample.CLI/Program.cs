@@ -7,7 +7,6 @@ namespace GcpStorageExample.CLI
         static async Task Main(string[] args)
         {
             var app = new App();
-            app.Setup();
             await app.RunAsync();
         }
     }

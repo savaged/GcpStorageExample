@@ -6,5 +6,6 @@ namespace GcpStorageExample.Data.Db.Storage
     {
         Task DownloadAsync(string fileName);
         Task UploadAsync(string fileName);
+        Task DeleteAsync(string fileName);
     }
 }

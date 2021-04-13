@@ -7,9 +7,10 @@ namespace GcpStorageExample.CLI
 {
     public class App
     {
-        private IContainer _container;
+        private readonly IContainer _container;
+        private readonly string _sampleFileName;
 
-        public void Setup()
+        public App()
         {
             var builder = new ContainerBuilder();
             builder.RegisterType<FileService>()
@@ -18,11 +19,22 @@ namespace GcpStorageExample.CLI
                 .WithParameter("bucketName", GlobalConstants.STORAGE_BUCKET_NAME)
                 .WithParameter("localWorkingDirectoryName", GlobalConstants.LOCAL_WORKING_DIR);
             _container = builder.Build();
+
+            _sampleFileName = "~/tmp/savaged.pdf";
         }
     
         public async Task RunAsync()
         {
-            await Task.CompletedTask;
+            IFileService fileService;
+            using (var scope = _container.BeginLifetimeScope())
+            {
+                fileService = scope.Resolve<IFileService>();
+            }
+            await fileService.UploadAsync(_sampleFileName);
+
+            await fileService.DownloadAsync(_sampleFileName);
+
+            await fileService.DeleteAsync(_sampleFileName);
         }
     }
 }

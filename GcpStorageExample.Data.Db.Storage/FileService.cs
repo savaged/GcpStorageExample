@@ -32,7 +32,7 @@ namespace GcpStorageExample.Data.Db.Storage
         {
             if (string.IsNullOrEmpty(fileName))
             {
-                throw new ArgumentNullException(nameof(fileName));
+                return;
             }
             await DownloadToWorkingDirectoryAsync(fileName);
         }
@@ -41,9 +41,28 @@ namespace GcpStorageExample.Data.Db.Storage
         {
             if (string.IsNullOrEmpty(fileName))
             {
-                throw new ArgumentNullException(nameof(fileName));
+                return;
             }
             await UploadFileFromWorkingDirectoryAsync(fileName);
+        }
+
+        public async Task DeleteAsync(string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName))
+            {
+                return;
+            }
+            await DeleteFromBucketAsync(fileName);
+        }
+
+        private async Task DeleteFromBucketAsync(string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName))
+            {
+                return;
+            }
+            var storage = StorageClient.Create(_googleCredential);
+            await storage.DeleteObjectAsync(_bucketName, fileName);
         }
 
         private async Task UploadFileFromWorkingDirectoryAsync(
@@ -51,9 +70,8 @@ namespace GcpStorageExample.Data.Db.Storage
         {
             if (string.IsNullOrEmpty(fileName))
             {
-                throw new ArgumentNullException(nameof(fileName));
+                return;
             }
-
             var storage = StorageClient.Create(_googleCredential);
 
             using (var fileStream = File.OpenRead(
@@ -67,6 +85,10 @@ namespace GcpStorageExample.Data.Db.Storage
         private async Task DownloadToWorkingDirectoryAsync(
             string fileName)
         {
+            if (string.IsNullOrEmpty(fileName))
+            {
+                return;
+            }
             var storage = StorageClient.Create(_googleCredential);
 
             using (var outputFile = File.OpenWrite(
