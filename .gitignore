@@ -1,0 +1,4 @@
+**/bin
+**/obj
+GcpStorageExample.Settings/storage-key/*.json
+GcpStorageExample.Settings/GlobalConstants.partial.cs
