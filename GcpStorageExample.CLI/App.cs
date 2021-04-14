@@ -1,3 +1,4 @@
+using System;
 using Autofac;
 using GcpStorageExample.Data.Db.Storage;
 using GcpStorageExample.Settings;
@@ -26,15 +27,18 @@ namespace GcpStorageExample.CLI
         public async Task RunAsync()
         {
             IFileService fileService;
-            using (var scope = _container.BeginLifetimeScope())
+            await using (var scope = _container.BeginLifetimeScope())
             {
                 fileService = scope.Resolve<IFileService>();
             }
             await fileService.UploadAsync(_sampleFileName);
+            Console.WriteLine($"Uploaded {_sampleFileName}");
 
             await fileService.DownloadAsync(_sampleFileName);
+            Console.WriteLine("Downloaded it again");
 
             await fileService.DeleteAsync(_sampleFileName);
+            Console.WriteLine("Deleted it from the bucket");
         }
     }
 }
